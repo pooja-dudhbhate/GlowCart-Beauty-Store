@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | GlowCart</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <h1 class="logo">GlowCart<span>.</span></h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="products">
+    <h2>Explore Our Beauty Collection</h2>
+    <p>Find your favourite beauty essentials.</p>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search products..."
+        oninput="searchProducts()"
+    >
+
+    <div class="category-list">
+        <button onclick="filterProducts('All')">All</button>
+        <button onclick="filterProducts('Skincare')">Skincare</button>
+        <button onclick="filterProducts('Makeup')">Makeup</button>
+        <button onclick="filterProducts('Haircare')">Haircare</button>
+    </div>
+
+    <br>
+
+    <div class="product-grid" id="product-list"></div>
+</section>
+
+<footer>
+    <p>© 2026 GlowCart. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
