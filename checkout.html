@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | GlowCart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 25px;
+        }
+
+        .checkout-box {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #00000010;
+        }
+
+        .checkout-box h2 {
+            color: #a64e6e;
+            margin-bottom: 20px;
+        }
+
+        .checkout-box input,
+        .checkout-box textarea {
+            width: 100%;
+            padding: 13px;
+            margin: 9px 0;
+            border: 1px solid #e5b8c7;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .payment-option {
+            display: block;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #e5b8c7;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .place-order-btn {
+            background: #b65c79;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .place-order-btn:hover {
+            background: #91445e;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <h1 class="logo">GlowCart<span>.</span></h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="checkout-container">
+
+    <h1>Checkout 💗</h1>
+    <br>
+
+    <form id="checkout-form">
+
+        <div class="checkout-box">
+            <h2>Delivery Address</h2>
+
+            <input type="text" id="customer-name"
+                placeholder="Full Name" required>
+
+            <input type="tel" id="mobile"
+                placeholder="Mobile Number" pattern="[0-9]{10}" required>
+
+            <textarea id="address"
+                placeholder="Full Delivery Address" required></textarea>
+
+            <input type="text" id="city"
+                placeholder="City" required>
+
+            <input type="text" id="pincode"
+                placeholder="6 Digit Pincode"
+                pattern="[0-9]{6}" required>
+        </div>
+
+        <div class="checkout-box">
+            <h2>Payment Method</h2>
+
+            <label class="payment-option">
+                <input type="radio" name="payment"
+                    value="Cash on Delivery" required>
+                💵 Cash on Delivery
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment"
+                    value="UPI">
+                📱 UPI (Demo)
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment"
+                    value="Debit/Credit Card">
+                💳 Debit / Credit Card (Demo)
+            </label>
+        </div>
+
+        <div class="checkout-box">
+            <h2>Order Summary</h2>
+            <h3>Total Amount: ₹<span id="total">0</span></h3>
+        </div>
+
+        <button type="submit" class="place-order-btn">
+            Place Order →
+        </button>
+
+    </form>
+</div>
+
+<footer>
+    <p>© 2026 GlowCart. All Rights Reserved.</p>
+</footer>
+
+<script>
+const cart = JSON.parse(localStorage.getItem("glowcart")) || [];
+
+const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity, 0
+);
+
+document.getElementById("total").textContent = total;
+
+document.getElementById("checkout-form")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    const payment = document.querySelector(
+        'input[name="payment"]:checked'
+    );
+
+    if (!payment) {
+        alert("Please select a payment method.");
+        return;
+    }
+
+    const order = {
+        orderId: "GC" + Date.now(),
+        customer: document.getElementById("customer-name").value,
+        mobile: document.getElementById("mobile").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        pincode: document.getElementById("pincode").value,
+        payment: payment.value,
+        items: cart,
+        total: total,
+        date: new Date().toLocaleString(),
+        status: "Order Placed"
+    };
+
+    const orders = JSON.parse(
+        localStorage.getItem("glowcart-orders")
+    ) || [];
+
+    orders.push(order);
+
+    localStorage.setItem(
+        "glowcart-orders",
+        JSON.stringify(orders)
+    );
+
+    localStorage.removeItem("glowcart");
+
+    window.location.href = "orders.html";
+});
+</script>
+
+</body>
+</html>
